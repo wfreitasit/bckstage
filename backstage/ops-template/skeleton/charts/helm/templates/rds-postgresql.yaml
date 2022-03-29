@@ -1,0 +1,35 @@
+{%- if values.database %}
+apiVersion: rds.services.k8s.aws/v1alpha1
+kind: DBCluster
+metadata:
+  name: cluster-${{values.database}}
+  namespace: ack-operator
+spec:
+  dbClusterIdentifier: cluster-${{values.database}}
+  databaseName: teste
+#  dbInstanceClass: db.t3.medium
+#  dbInstanceIdentifier: teste-ack
+  dbSubnetGroupName: default
+  engine: aurora-postgresql
+  masterUsername: teste
+  masterUserPassword:
+    namespace: ack-operator
+    name: rds-postgresql-user-creds
+    key: password
+
+--- 
+
+apiVersion: rds.services.k8s.aws/v1alpha1
+kind: DBInstance
+metadata:
+  name: instance-${{values.database}}
+  namespace: ack-operator
+spec:
+  dbClusterIdentifier: cluster-${{values.database}}
+  dbInstanceClass: db.t3.medium
+  dbInstanceIdentifier: instance-${{values.database}}
+  dbSubnetGroupName: default
+  engine: aurora-postgresql
+{%- endif %}
+
+  

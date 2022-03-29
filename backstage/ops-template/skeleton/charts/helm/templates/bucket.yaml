@@ -1,0 +1,9 @@
+{%- if values.bucket %}
+apiVersion: s3.services.k8s.aws/v1alpha1
+kind: Bucket
+metadata:
+  name: ${{values.bucket}}
+  namespace: ack-operator
+spec:
+  name: ${{values.bucket}}
+{%- endif %}
